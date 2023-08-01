@@ -7,7 +7,7 @@ function App() {
   const INSURANCE_AMOUNT = ["300000", "400000", "500000"];
   const CITY_TIER = ["1", "2"];
   const INSURANCE_TENURE = ["1", "2", "3"];
-  const [adultsCount, setAdultsCount] = useState(0);
+  const [adultsCount, setAdultsCount] = useState(1);
   const [adultsAges, setAdultAges] = useState("");
   const [childCount, setChildCount] = useState(0);
   const [childAges, setChildAges] = useState("");
@@ -60,6 +60,7 @@ function App() {
               name="adults"
               value={adultsCount}
               onChange={(e) => setAdultsCount(e.target.value)}
+              min={1}
               required
             />
           </label>
