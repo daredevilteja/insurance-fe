@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import "./App.css";
 import DropDown from "./components/DropDown";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 function App() {
   const INSURANCE_AMOUNT = ["300000", "400000", "500000"];
@@ -49,69 +50,71 @@ function App() {
 
   return (
     <div className="mainContainer">
-      <h1>Insurance Premium Cost Generator</h1>
-      <div>
-        <label>
-          Enter number of adults:
-          <input
-            type="number"
-            name="adults"
-            value={adultsCount}
-            onChange={(e) => setAdultsCount(e.target.value)}
-            required
+      <Suspense fallback={<LoadingSpinner />}>
+        <h1>Insurance Premium Cost Generator</h1>
+        <div className="formContainer">
+          <label>
+            Enter number of adults:
+            <input
+              type="number"
+              name="adults"
+              value={adultsCount}
+              onChange={(e) => setAdultsCount(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Enter ages of adults in comma-seperated format:
+            <input
+              type="text"
+              name="adultsAges"
+              value={adultsAges}
+              onChange={(e) => setAdultAges(e.target.value)}
+              placeholder={"90, 80"}
+              required
+            />
+          </label>
+          <label>
+            Enter number of children:
+            <input
+              type="number"
+              name="child"
+              value={childCount}
+              onChange={(e) => setChildCount(e.target.value)}
+            />
+          </label>
+          <label>
+            Enter ages of children in comma-seperated format:
+            <input
+              type="text"
+              name="childAges"
+              value={childAges}
+              onChange={(e) => setChildAges(e.target.value)}
+              placeholder={"90, 80"}
+            />
+          </label>
+          <DropDown
+            labelData={"Sum insured"}
+            options={INSURANCE_AMOUNT}
+            handleChange={(val) => setSumInsured(val)}
           />
-        </label>
-        <label>
-          Enter ages of adults in comma-seperated format:
-          <input
-            type="text"
-            name="adultsAges"
-            value={adultsAges}
-            onChange={(e) => setAdultAges(e.target.value)}
-            placeholder={"90, 80"}
-            required
+          <DropDown
+            labelData={"Select City Tier"}
+            options={CITY_TIER}
+            handleChange={(val) => setCityTier(val)}
           />
-        </label>
-        <label>
-          Enter number of children:
-          <input
-            type="number"
-            name="child"
-            value={childCount}
-            onChange={(e) => setChildCount(e.target.value)}
-          />
-        </label>
-        <label>
-          Enter ages of children in comma-seperated format:
-          <input
-            type="text"
-            name="childAges"
-            value={childAges}
-            onChange={(e) => setChildAges(e.target.value)}
-            placeholder={"90, 80"}
-          />
-        </label>
-        <DropDown
-          labelData={"Sum insured"}
-          options={INSURANCE_AMOUNT}
-          handleChange={(val) => setSumInsured(val)}
-        />
-        <DropDown
-          labelData={"Select City Tier"}
-          options={CITY_TIER}
-          handleChange={(val) => setCityTier(val)}
-        />
 
-        <DropDown
-          labelData={"Select Tenure of the Insurance"}
-          options={INSURANCE_TENURE}
-          handleChange={(val) => setTenureOfInsurance(val)}
-        />
+          <DropDown
+            labelData={"Select Tenure of the Insurance"}
+            options={INSURANCE_TENURE}
+            handleChange={(val) => setTenureOfInsurance(val)}
+          />
 
-        <button onClick={calculatePremium}>Calculate Premium</button>
-      </div>
+          <button onClick={calculatePremium}>Calculate Premium</button>
+        </div>
 
-      <div>Calculated Premium: {calculatedPremium}</div>
+        <div>Calculated Premium: {calculatedPremium}</div>
+      </Suspense>
     </div>
   );
 }
