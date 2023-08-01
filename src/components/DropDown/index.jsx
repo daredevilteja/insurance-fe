@@ -4,6 +4,7 @@ function DropDown({ labelData, options, handleChange }) {
   const [selectedOption, setSelectedOption] = useState("");
 
   const handleDropdownChange = (event) => {
+    handleChange(event.target.value);
     setSelectedOption(event.target.value);
   };
 
